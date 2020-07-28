@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.exception.CustomException;
+import org.springframework.util.DigestUtils;
 
 /**
  * 安全服务工具类
@@ -53,15 +54,14 @@ public class SecurityUtils
     }
 
     /**
-     * 生成BCryptPasswordEncoder密码
+     * 生成MD5加密的密码
      *
      * @param password 密码
      * @return 加密字符串
      */
     public static String encryptPassword(String password)
     {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.encode(password);
+        return DigestUtils.md5DigestAsHex(password.toString().getBytes()).toUpperCase();
     }
 
     /**
@@ -73,8 +73,7 @@ public class SecurityUtils
      */
     public static boolean matchesPassword(String rawPassword, String encodedPassword)
     {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.matches(rawPassword, encodedPassword);
+        return encodedPassword.equals(DigestUtils.md5DigestAsHex(rawPassword.toString().getBytes()).toUpperCase());
     }
 
     /**

@@ -127,12 +127,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
     
     /**
-     * 强散列哈希加密实现
+     * MD5加密
      */
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder()
+    public Md5PassWordEncoder md5PassWordEncoder()
     {
-        return new BCryptPasswordEncoder();
+        return new Md5PassWordEncoder();
     }
 
     /**
@@ -141,6 +140,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception
     {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(md5PassWordEncoder());
     }
 }
